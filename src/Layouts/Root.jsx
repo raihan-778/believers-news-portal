@@ -12,7 +12,7 @@ const Root = () => {
       <Container>
         <Row>
           <Header></Header>
-          <Col className="border rounded-2" lg="2">
+          <Col className="" lg="2">
             <LeftSideNav></LeftSideNav>
           </Col>
           <Col lg="7">
