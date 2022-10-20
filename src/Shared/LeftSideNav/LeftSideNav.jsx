@@ -11,7 +11,7 @@ const LeftSideNav = () => {
   }, []);
   return (
     <div>
-      <h2>All Categories: {category.length}</h2>
+      <h2 className="text-primary">All Categories: {category.length}</h2>
       {category.map((singleCategory) => (
         <p key={singleCategory.id}>
           <Link to={`/category/${singleCategory.id}`}>
