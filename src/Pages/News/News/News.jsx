@@ -6,16 +6,16 @@ import { Link, useLoaderData } from "react-router-dom";
 const News = () => {
   const newsData = useLoaderData();
   console.log(newsData);
-  const { title, details, image_url, author, total_view } = newsData;
+  const { title, category_id, details, image_url, author, total_view } =
+    newsData;
   return (
     <div>
       <Card style={{ width: "100%", padding: "10px" }}>
         <Card.Img variant="top" src={image_url} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
-          <Card.Text>
-            {details}
-
+          <Card.Text>{details}</Card.Text>
+          <div>
             <p>
               Name: <span>{author.name}</span>
             </p>
@@ -25,10 +25,10 @@ const News = () => {
             <p>
               Name: <span>{total_view}</span>
             </p>
-          </Card.Text>
+          </div>
           <Button>
-            <Link className="text-white" to="/">
-              Return To Home
+            <Link className="text-white" to={`/category/${category_id}`}>
+              All News in this category
             </Link>
           </Button>
         </Card.Body>
