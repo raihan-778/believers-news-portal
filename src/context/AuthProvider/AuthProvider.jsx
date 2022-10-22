@@ -1,14 +1,16 @@
-import React, { createContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
+import React, { createContext, useEffect, useState } from "react";
 import app from "../../firebase/firebase.config";
+import Spinner from "../../Spinner/Spinner";
 
 export const AuthContext = createContext();
 
@@ -20,23 +22,27 @@ const AuthProvider = ({ children }) => {
   //google signup
   const googleSignUp = (provider) => {
     setLoading(true);
+
     return signInWithPopup(auth, provider);
   };
 
   //log in with email and password
   const userLogIn = (email, password) => {
     setLoading(true);
+    <Spinner></Spinner>;
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   //sign up with email and password
   const userSignUp = (email, password) => {
     setLoading(true);
+
     return createUserWithEmailAndPassword(auth, email, password);
   };
   //log out
   const userSignOut = () => {
     setLoading(true);
+
     return signOut(auth);
   };
 
@@ -44,12 +50,18 @@ const AuthProvider = ({ children }) => {
   const updateUserProfiles = (userProfile) => {
     return updateProfile(auth.currentUser, userProfile);
   };
+  const userEmailVerify = () => {
+    return sendEmailVerification(auth.currentUser);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser?.uid) {
         console.log(currentUser);
-        setUser(currentUser);
+        if (currentUser === null || currentUser.emailVerified) {
+          setUser(currentUser);
+        }
+
         setLoading(false);
       }
     });
@@ -63,7 +75,9 @@ const AuthProvider = ({ children }) => {
     userLogIn,
     userSignUp,
     userSignOut,
-    updateUserProfiles
+    updateUserProfiles,
+    userEmailVerify,
+    setLoading,
   };
   return (
     <div>

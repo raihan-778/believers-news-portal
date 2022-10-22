@@ -1,12 +1,11 @@
-import { Button } from "react-bootstrap";
 import React, { useContext } from "react";
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import LeftSideNav from "../LeftSideNav/LeftSideNav";
-
 const Header = () => {
   const { user, userSignOut } = useContext(AuthContext);
 
@@ -38,6 +37,10 @@ const Header = () => {
             {user?.uid ? (
               <>
                 {<span>{user?.email}</span>}
+
+                {/* <Image fluid roundedCircle thumbnail>
+                  {user.photoURL}
+                </Image> */}
                 <Button onClick={handleUserSignOut}>Log Out</Button>
               </>
             ) : (
@@ -47,7 +50,8 @@ const Header = () => {
                   <Link to="/login">Log in</Link>{" "}
                 </Nav.Link>
                 <Nav.Link>
-                  <Link to="/register">Register</Link>{" "}
+                  <Link to="/register">Register</Link>
+                  {/* <FaUser></FaUser> */}
                 </Nav.Link>
               </>
             )}
