@@ -6,10 +6,17 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 import LeftSideNav from "../LeftSideNav/LeftSideNav";
-import { getAuth, signOut } from "firebase/auth";
-const auth = getAuth();
+
 const Header = () => {
   const { user, userSignOut } = useContext(AuthContext);
+
+  const handleUserSignOut = () => {
+    userSignOut()
+      .then(() => {
+        console.log("user Signout Clicked");
+      })
+      .then((error) => console.error(error));
+  };
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -22,12 +29,16 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link>
+              {" "}
+              <Link to="/termsAndConditions">Terms & Conditions</Link>
+            </Nav.Link>
           </Nav>
           <Nav>
             {user?.uid ? (
               <>
                 {<span>{user?.email}</span>}
-                <Button onClick={userSignOut}>Log Out</Button>
+                <Button onClick={handleUserSignOut}>Log Out</Button>
               </>
             ) : (
               <>

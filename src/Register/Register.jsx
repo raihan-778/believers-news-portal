@@ -1,27 +1,45 @@
 import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider/AuthProvider";
 const Register = () => {
-  const { userSignUp } = useContext(AuthContext);
+  const { userSignUp, updateUserProfiles } = useContext(AuthContext);
+
   const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false);
 
   const handleSignUp = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    const name = form.name.value;
+    const photoURL = form.photoURL.value;
+
     userSignUp(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
         form.reset();
+        handleUpdateProfile(name, photoURL);
       })
       .catch((error) => {
         console.error(error.message);
         setError(error.message);
       });
+  };
+
+  const handleAccepted = (event) => {
+    console.log(event.target.checked);
+    setAccepted(event.target.checked);
+  };
+
+  const handleUpdateProfile = (name, photoURL) => {
+    const userProfile = { displayName: name, photoURL: photoURL };
+    updateUserProfiles(userProfile)
+      .then(() => {})
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -30,6 +48,14 @@ const Register = () => {
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
           <Form.Control type="text" name="name" placeholder="Enter Your Name" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Photo URL</Form.Label>
+          <Form.Control
+            type="text"
+            name="photoURL"
+            placeholder="Enter Your Name"
+          />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
@@ -45,11 +71,20 @@ const Register = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
+          <Form.Check
+            onClick={handleAccepted}
+            type="checkbox"
+            label={
+              <>
+                Accept The
+                <Link to="/termsAndConditions">Terms & Conditions</Link>
+              </>
+            }
+          />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
+        <Button variant="primary" type="submit" disabled={!accepted}>
+          Register
         </Button>
         <Form.Text className="text-danger">{error}</Form.Text>
       </Form>
