@@ -28,10 +28,10 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
-            <Nav.Link>
+            <>
               {" "}
               <Link to="/termsAndConditions">Terms & Conditions</Link>
-            </Nav.Link>
+            </>
           </Nav>
           <Nav>
             {user?.uid ? (
@@ -46,13 +46,13 @@ const Header = () => {
             ) : (
               <>
                 {" "}
-                <Nav.Link>
+                <>
                   <Link to="/login">Log in</Link>{" "}
-                </Nav.Link>
-                <Nav.Link>
+                </>
+                <>
                   <Link to="/register">Register</Link>
                   {/* <FaUser></FaUser> */}
-                </Nav.Link>
+                </>
               </>
             )}
           </Nav>
